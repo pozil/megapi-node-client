@@ -4,3 +4,6 @@
 # Node build resources
 dist
 node_modules
+
+# Firmware file
+*.ino
