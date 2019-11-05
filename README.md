@@ -12,7 +12,7 @@ This projects brings the following major improvements:
 Works with MegaPi firmware `0e.01.016` and USB connection.
 
 **WARNING:** not all functions work. Some functions were not working in the original project and haven't been fixed (PRs welcome).<br/>
-Commented functions indicate the ones that have been tested. There is a big gap around sensors.
+Commented functions indicate the ones that have been tested.
 
 ## How To Use
 
