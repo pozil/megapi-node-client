@@ -7,14 +7,16 @@ export default class MegaPi {
     /**
      * Configures the MegaPi controller.
      * @param {string} port path of the serial port. '/dev/ttyAMA0' by default.
-     * @param {boolean} isDebugMode whether debug mode is enabled. Debug mode will output serial I/O to the console.
+     * @param {boolean} isDebugMode whether debug mode is enabled. Debug mode will output serial I/O to logs.
+     * @param {*} logger class used to write logs. Defaults to console. You can replace it with a logging library like Winston.
      */
-    constructor(port = '/dev/ttyAMA0', isDebugMode = false) {
+    constructor(port = '/dev/ttyAMA0', isDebugMode = false, logger = console) {
         this.serialPort = new SerialPort(port, {
             baudRate: 115200,
             autoOpen: false
         });
         this.isDebugMode = isDebugMode;
+        this.logger = logger;
         this.buffer = [];
         this.selectors = {};
         this.isParseStart = false;
@@ -32,7 +34,9 @@ export default class MegaPi {
                 // Wait for firmware version sent at startup
                 if (this.isStartup) {
                     const firmwareVersion = ByteUtils.getStringFromBytes(data);
-                    console.log(`Connected. Firmware ${firmwareVersion}`);
+                    this.logger.info(
+                        `MegaPi connected. Firmware ${firmwareVersion}`
+                    );
                     this.isStartup = false;
                     return resolve();
                 }
@@ -41,7 +45,9 @@ export default class MegaPi {
             });
 
             this.serialPort.on('error', error => {
-                console.error('Serial port error: ', error.message);
+                this.logger.error(
+                    `Serial port error: ${JSON.stringify(error)}`
+                );
             });
 
             this.serialPort.on('open', () => {
@@ -50,7 +56,9 @@ export default class MegaPi {
 
             this.serialPort.open(error => {
                 if (error) {
-                    reject(`Error opening serial port: ${error.message}`);
+                    reject(
+                        `Error opening serial port: ${JSON.stringify(error)}`
+                    );
                 }
             });
         });
@@ -65,7 +73,11 @@ export default class MegaPi {
             return new Promise(resolve => {
                 this.serialPort.close(error => {
                     if (error) {
-                        console.error('Serial port disconnect error', error);
+                        this.logger.error(
+                            `Serial port disconnect error: ${JSON.stringify(
+                                error
+                            )}`
+                        );
                     }
                     resolve();
                 });
@@ -471,7 +483,7 @@ export default class MegaPi {
 
     _parseInput(data) {
         if (this.isDebugMode) {
-            console.log('Serial IN ', data);
+            this.logger.info(`Serial IN: ${data.inspect()}`);
         }
         const readBuffer = new Uint8Array(data);
         for (let i = 0; i < readBuffer.length; i++) {
@@ -532,9 +544,8 @@ export default class MegaPi {
                             // Ignore confirmation messages
                             break;
                         default:
-                            console.warn(
-                                `Unsupported data type ${type} for input`,
-                                data
+                            this.logger.warn(
+                                `Unsupported data type ${type} for input: ${data.inspect()}`
                             );
                             break;
                     }
@@ -561,9 +572,11 @@ export default class MegaPi {
         );
         this.serialPort.write(buf, error => {
             if (error) {
-                console.error('Serial port write error', error);
+                this.logger.error(
+                    `Serial port write error: ${JSON.stringify(error)}`
+                );
             } else if (this.isDebugMode) {
-                console.log('Serial OUT ', buf);
+                this.logger.info(`Serial OUT: ${buf.inspect()}`);
             }
         });
     }
