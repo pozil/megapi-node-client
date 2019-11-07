@@ -1,6 +1,6 @@
 {
     "name": "megapi-node-client",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Unofficial MegaPi Node.js client",
     "main": "dist/bundle.cjs.js",
     "module": "dist/bundle.esm.js",
