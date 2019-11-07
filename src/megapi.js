@@ -86,6 +86,14 @@ export default class MegaPi {
         return Promise.resolve();
     }
 
+    /**
+     * Returns whether the connection to MegaPi is open
+     * @returns {boolean} true if connection is open
+     */
+    isConnected() {
+        return this.serialPort.isOpen;
+    }
+
     digitalWrite(pin, level) {
         const id = 0;
         const action = 2;
