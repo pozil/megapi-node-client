@@ -62,6 +62,7 @@ Functions annotated with ✔ have been tested and are know to work. The others m
 
     -   DC Motor
         -   ✔ **dcMotorRun**( port, speed )
+        -   ✔ **dcMotorStop**( port )
     -   Servo Motor
         -   **servoRun**( port, slot, angle )
     -   Encoder Motor

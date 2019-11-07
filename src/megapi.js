@@ -259,6 +259,11 @@ export default class MegaPi {
         return this._getResponsePromise(id);
     }
 
+    /**
+     * Runs a DC motor at a given speed
+     * @param {number} port
+     * @param {number} speed
+     */
     dcMotorRun(port, speed) {
         const id = 0;
         const action = 2;
@@ -267,6 +272,10 @@ export default class MegaPi {
         this._write([id, action, device, port].concat(spd));
     }
 
+    /**
+     * Stops a DC motor
+     * @param {number} port
+     */
     dcMotorStop(port) {
         self.dcMotorRun(port, 0);
     }
