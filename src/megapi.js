@@ -2,26 +2,31 @@ const SerialPort = require('serialport');
 import ByteUtils from './byteUtils.js';
 
 const MAX_LINEAR_SPEED = 200;
+const DEFAULT_OPTIONS = {
+    isDebugMode: false,
+    logger: console,
+    logWelcomeMessage: true
+};
 
 export default class MegaPi {
     /**
      * Configures the MegaPi controller.
      * @param {string} port path of the serial port. '/dev/ttyAMA0' by default.
-     * @param {boolean} isDebugMode whether debug mode is enabled. Debug mode will output serial I/O to logs.
-     * @param {*} logger class used to write logs. Defaults to console. You can replace it with a logging library like Winston.
+     * @param {Object} options an object that represents options
+     * @param {boolean} options.isDebugMode whether debug mode is enabled. Debug mode will output serial I/O to logs.
+     * @param {Object} options.logger class used to write logs. Defaults to console. You can replace it with a logging library like Winston.
+     * @param {boolean} options.logWelcomeMessage whether to log the welcome message that indicates the firmware version.
      */
-    constructor(port = '/dev/ttyAMA0', isDebugMode = false, logger = console) {
+    constructor(port = '/dev/ttyAMA0', options = {}) {
         this.serialPort = new SerialPort(port, {
             baudRate: 115200,
             autoOpen: false
         });
-        this.isDebugMode = isDebugMode;
-        this.logger = logger;
-        this.buffer = [];
-        this.selectors = {};
-        this.isParseStart = false;
-        this.isParseStartIndex;
-        this.isStartup = false;
+        // Apply options
+        const fullOptions = Object.assign({}, DEFAULT_OPTIONS, options);
+        this.isDebugMode = fullOptions.isDebugMode;
+        this.logger = fullOptions.logger;
+        this.logWelcomeMessage = fullOptions.logWelcomeMessage;
     }
 
     /**
@@ -34,9 +39,11 @@ export default class MegaPi {
                 // Wait for firmware version sent at startup
                 if (this.isStartup) {
                     const firmwareVersion = ByteUtils.getStringFromBytes(data);
-                    this.logger.info(
-                        `MegaPi connected. Firmware ${firmwareVersion}`
-                    );
+                    if (this.logWelcomeMessage) {
+                        this.logger.info(
+                            `MegaPi connected. Firmware ${firmwareVersion}`
+                        );
+                    }
                     this.isStartup = false;
                     return resolve();
                 }
@@ -51,7 +58,12 @@ export default class MegaPi {
             });
 
             this.serialPort.on('open', () => {
+                // Initiate client state
                 this.isStartup = true;
+                this.buffer = [];
+                this.selectors = {};
+                this.isParseStart = false;
+                this.isParseStartIndex = 0;
             });
 
             this.serialPort.open(error => {

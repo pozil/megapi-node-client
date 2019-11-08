@@ -25,12 +25,12 @@ Assuming that you are running Node.js on a Raspberry Pi connected to MegaPi via 
 npm install megapi-node-client
 ```
 
--   Use this sample code to try out the project (you may need to change the `/dev/ttyUSB0` port depending on where you plug the USB cable)
+-   Use this sample code to try out the project. You may need to change the `/dev/ttyUSB0` port depending on where you plug the USB cable. You can also pass in options to the MegaPi constuctor (not shown here, see JSDoc for details).
 
 ```js
 import MegaPi from 'megapi-node-client';
 
-const megaPi = new MegaPi('/dev/ttyUSB0', false);
+const megaPi = new MegaPi('/dev/ttyUSB0');
 await megaPi.encoderMotorMove(1, 100, 500);
 await megaPi.encoderMotorMove(2, 100, 300);
 await megaPi.disconnect();
@@ -42,11 +42,11 @@ await megaPi.disconnect();
 
 Documentation is kept in the code (JSDoc) but here's an overview of the available functions.
 
-Functions annotated with ✔ have been tested and are know to work. The others may or may not work.
+Functions annotated with ✔ have been tested with hardware and are know to work. The others may or may not work.
 
 -   Main
 
-    -   ✔ **MegaPi**( serialPortPath, isDebug)
+    -   ✔ **MegaPi**( serialPortPath, options )
     -   ✔ **disconnect**()
     -   ✔ **firmwareVersionRead**()
     -   ✔ **reset**()
