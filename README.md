@@ -44,18 +44,19 @@ await megaPi.disconnect();
 Documentation is kept in the code (JSDoc) but here's an overview of what's available.
 
 ## Constructor Options
+
 The client is build by calling this constructor: `MegaPi(port = '/dev/ttyAMA0', options = {})`.
 Options are the following:
 
-Option | Default | Description
---- | --- | ---
-`isDebugMode: boolean` | `false`   | whether debug mode is enabled. Debug mode will output serial I/O to logs.
-`logger: Object`       | `console` | class that is used to write logs. Use this to plug in a logging library like Winston.
-`logWelcomeMessage: boolean` | `true` | whether to log the welcome message that indicates the firmware version.
-
+| Option                       | Default   | Description                                                                           |
+| ---------------------------- | --------- | ------------------------------------------------------------------------------------- |
+| `isDebugMode: boolean`       | `false`   | whether debug mode is enabled. Debug mode will output serial I/O to logs.             |
+| `logger: Object`             | `console` | class that is used to write logs. Use this to plug in a logging library like Winston. |
+| `logWelcomeMessage: boolean` | `true`    | whether to log the welcome message that indicates the firmware version.               |
 
 ## Function Overview
-Functions annotated with ✔ have been tested with hardware and are know to work. The others may or may not work.
+
+Functions annotated with ✔ have been tested with hardware, are documented and are know to work. The others may or may not work.
 
 -   Main
 
@@ -80,6 +81,7 @@ Functions annotated with ✔ have been tested with hardware and are know to work
         -   **servoRun**( port, slot, angle )
     -   Encoder Motor
         -   ✔ **encoderMotorRun**( slot, speed )
+        -   ✔ **encoderMotorStopn**( slot )
         -   ✔ **encoderMotorMove**( slot, speed, distance )
         -   ✔ **encoderMotorMoveTo**( slot, speed, position )
         -   ✔ **encoderMotorPosition**( slot )
