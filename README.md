@@ -25,23 +25,36 @@ Assuming that you are running Node.js on a Raspberry Pi connected to MegaPi via 
 npm install megapi-node-client
 ```
 
--   Use this sample code to try out the project. You may need to change the `/dev/ttyUSB0` port depending on where you plug the USB cable. You can also pass in options to the MegaPi constuctor (not shown here, see JSDoc for details).
+-   Use this sample code to try out the project. You may need to change the `/dev/ttyUSB0` port depending on where you plug the USB cable. You can also pass options to the MegaPi constuctor (not shown here, see API section for details).
 
 ```js
 import MegaPi from 'megapi-node-client';
 
 const megaPi = new MegaPi('/dev/ttyUSB0');
+await megaPi.connect();
 await megaPi.encoderMotorMove(1, 100, 500);
-await megaPi.encoderMotorMove(2, 100, 300);
+await megaPi.encoderMotorMove(3, 100, 300);
 await megaPi.disconnect();
 ```
 
 -   Build and run your code
 
-## Node API
+## API
 
-Documentation is kept in the code (JSDoc) but here's an overview of the available functions.
+Documentation is kept in the code (JSDoc) but here's an overview of what's available.
 
+## Constructor Options
+The client is build by calling this constructor: `MegaPi(port = '/dev/ttyAMA0', options = {})`.
+Options are the following:
+
+Option | Default | Description
+--- | --- | ---
+`isDebugMode: boolean` | `false`   | whether debug mode is enabled. Debug mode will output serial I/O to logs.
+`logger: Object`       | `console` | class that is used to write logs. Use this to plug in a logging library like Winston.
+`logWelcomeMessage: boolean` | `true` | whether to log the welcome message that indicates the firmware version.
+
+
+## Function Overview
 Functions annotated with ✔ have been tested with hardware and are know to work. The others may or may not work.
 
 -   Main
