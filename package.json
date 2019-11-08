@@ -1,6 +1,6 @@
 {
     "name": "megapi-node-client",
-    "version": "2.0.2",
+    "version": "2.1.0",
     "description": "Unofficial MegaPi Node.js client",
     "main": "dist/bundle.cjs.js",
     "module": "dist/bundle.esm.js",
@@ -8,7 +8,7 @@
         "build": "./node_modules/.bin/rollup -c",
         "start": "npm run build && node .",
         "prettier": "prettier --write '**/*.{js,json,md}'",
-        "prepublish": "npm run build"
+        "prepublishOnly": "npm run build"
     },
     "repository": {
         "type": "git",
