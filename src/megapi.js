@@ -184,6 +184,11 @@ export default class MegaPi {
         this._write([id, action, device, port, mode]);
     }
 
+    /**
+     * Reads the utrasonic sensor
+     * @param {number} port
+     * @returns {Promise<number>} promise holding a distance in cm
+     */
     async ultrasonicSensorRead(port) {
         const action = 1;
         const device = 1;
