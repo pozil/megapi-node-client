@@ -199,6 +199,11 @@ export default class MegaPi {
         return this._getResponsePromise(id);
     }
 
+    /**
+     * Reads the line follower sensor
+     * @param {number} port
+     * @returns {Promise<number>} promise with the value read from the sensor: a number in the range [0-3]
+     */
     async lineFollowerRead(port) {
         const action = 1;
         const device = 17;

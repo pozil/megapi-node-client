@@ -7,3 +7,6 @@ node_modules
 
 # Firmware file
 *.ino
+
+# Temp test file
+test.js

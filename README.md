@@ -97,7 +97,7 @@ Functions annotated with ✔ have been tested with hardware, are documented and 
     -   Ultrasonic Sensor
         -   **ultrasonicSensorRead**( port )
     -   LineFollow Sensor
-        -   **lineFollowerRead**( port )
+        -   ✔ **lineFollowerRead**( port )
     -   Light Sensor
         -   **lightSensorRead**( port )
     -   Sound Sensor
