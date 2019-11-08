@@ -13,9 +13,9 @@ export default class MegaPi {
      * Configures the MegaPi controller.
      * @param {string} port path of the serial port. '/dev/ttyAMA0' by default.
      * @param {Object} options an object that represents options
-     * @param {boolean} options.isDebugMode whether debug mode is enabled. Debug mode will output serial I/O to logs.
-     * @param {Object} options.logger class used to write logs. Defaults to console. You can replace it with a logging library like Winston.
-     * @param {boolean} options.logWelcomeMessage whether to log the welcome message that indicates the firmware version.
+     * @param {boolean} [options.isDebugMode=false] whether debug mode is enabled. Debug mode will output serial I/O to logs.
+     * @param {Object} [options.logger=console] class that is used to write logs. Use this to plug in a logging library like Winston.
+     * @param {boolean} [options.logWelcomeMessage=true] whether to log the welcome message that indicates the firmware version.
      */
     constructor(port = '/dev/ttyAMA0', options = {}) {
         this.serialPort = new SerialPort(port, {
@@ -289,7 +289,7 @@ export default class MegaPi {
      * @param {number} port
      */
     dcMotorStop(port) {
-        self.dcMotorRun(port, 0);
+        this.dcMotorRun(port, 0);
     }
 
     servoRun(port, slot, angle) {
@@ -310,6 +310,14 @@ export default class MegaPi {
         const device = 62;
         const spd = ByteUtils.getBytesFromShort(speed);
         this._write([id, action, device, 0x02, slot].concat(spd));
+    }
+
+    /**
+     * Stops an encoder motor
+     * @param {number} slot
+     */
+    encoderMotorStop(slot) {
+        this.encoderMotorRun(slot, 0);
     }
 
     /**
@@ -494,10 +502,10 @@ export default class MegaPi {
             spd3 *= per;
             spd4 *= per;
         }
-        self.dcMotorRun(1, spd1);
-        self.dcMotorRun(2, spd2);
-        self.dcMotorRun(9, spd3);
-        self.dcMotorRun(10, -spd4);
+        this.dcMotorRun(1, spd1);
+        this.dcMotorRun(2, spd2);
+        this.dcMotorRun(9, spd3);
+        this.dcMotorRun(10, -spd4);
     }
 
     _getResponsePromise(id) {
