@@ -91,6 +91,9 @@ Functions annotated with ✔ have been tested with hardware, are documented and 
         -   **stepperMotorRun**( port, speed )
         -   **stepperMotorMove**( port, speed, distance )
         -   **stepperMotorMoveTo**( port, speed, position )
+    -   Custom Firmware (0e.01.016poz)
+        -   ✔ **getModeMoveSpeed**()
+        -   ✔ **setModeMoveSpeed**( speed )
 
 -   Sensors
 

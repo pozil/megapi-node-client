@@ -185,6 +185,32 @@ export default class MegaPi {
     }
 
     /**
+     * Gets the move speed for the following modes: obstacle avoidance, line following
+     * @returns {Promise<number>} promise with the MegaPi mode move speed
+     */
+    async getModeMoveSpeed() {
+        const port = 0;
+        const action = 1;
+        const device = 18;
+        const id = ((port << 4) + device) & 0xff;
+        this._write([id, action, device, port]);
+        return this._getResponsePromise(id);
+    }
+
+    /**
+     * Sets the move speed for the following modes: obstacle avoidance, line following
+     * @param {number} speed
+     */
+    setModeMoveSpeed(speed) {
+        const port = 0;
+        const action = 2;
+        const device = 18;
+        const id = ((port << 4) + device) & 0xff;
+        const speedBytes = ByteUtils.getBytesFromShort(speed);
+        this._write([id, action, device, port].concat(speedBytes));
+    }
+
+    /**
      * Reads the utrasonic sensor
      * @param {number} port
      * @returns {Promise<number>} promise holding a distance in cm
