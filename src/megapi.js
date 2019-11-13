@@ -428,6 +428,11 @@ export default class MegaPi {
         return this._getResponsePromise(id);
     }
 
+    /**
+     * Read encoder motor speed
+     * @param {number} slot
+     * @returns {Promise<number>} Promise holding motor speed
+     */
     async encoderMotorSpeed(slot) {
         const action = 1;
         const device = 61;

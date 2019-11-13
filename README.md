@@ -85,7 +85,7 @@ Functions annotated with ✔ have been tested with hardware, are documented and 
         -   ✔ **encoderMotorMove**( slot, speed, distance )
         -   ✔ **encoderMotorMoveTo**( slot, speed, position )
         -   ✔ **encoderMotorPosition**( slot )
-        -   **encoderMotorSpeed**( slot )
+        -   ✔ **encoderMotorSpeed**( slot )
     -   Stepper Motor
         -   **stepperMotorSetting**( port, microsteps, acceleration )
         -   **stepperMotorRun**( port, speed )
