@@ -175,6 +175,7 @@ export default class MegaPi {
     /**
      * Sets the MegaPi mode
      * @param {number} mode
+     * @returns {Promise<number>} promise that resolves with new mode after mode is run
      */
     setMode(mode) {
         const port = 18;
@@ -182,6 +183,7 @@ export default class MegaPi {
         const device = 60;
         const id = ((port << 4) + device) & 0xff;
         this._write([id, action, device, port, mode]);
+        return this._getResponsePromise(id);
     }
 
     /**
