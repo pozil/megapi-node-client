@@ -213,6 +213,32 @@ export default class MegaPi {
     }
 
     /**
+     * Gets stop distance for line following
+     * @returns {Promise<number>} promise with the stop distance
+     */
+    async getModeMoveSpeed() {
+        const port = 0;
+        const action = 1;
+        const device = 19;
+        const id = ((port << 4) + device) & 0xff;
+        this._write([id, action, device, port]);
+        return this._getResponsePromise(id);
+    }
+
+    /**
+     * Sets the stop distqnce for line following
+     * @param {number} distance
+     */
+    setStopDistance(distance) {
+        const port = 0;
+        const action = 2;
+        const device = 19;
+        const id = ((port << 4) + device) & 0xff;
+        const distanceBytes = ByteUtils.getBytesFromShort(distance);
+        this._write([id, action, device, port].concat(distanceBytes));
+    }
+
+    /**
      * Reads the utrasonic sensor
      * @param {number} port
      * @returns {Promise<number>} promise holding a distance in cm
