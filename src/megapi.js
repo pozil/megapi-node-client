@@ -216,7 +216,7 @@ export default class MegaPi {
      * Gets stop distance for line following
      * @returns {Promise<number>} promise with the stop distance
      */
-    async getModeMoveSpeed() {
+    async getStopDistance() {
         const port = 0;
         const action = 1;
         const device = 19;
